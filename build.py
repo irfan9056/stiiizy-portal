@@ -9,7 +9,6 @@ LOGO = {"__LOGO_LOCKUP__": b64("logo-lockup.png"), "__LOGO_ICON__": b64("logo-ic
 def build(locs, sd, out, wrap=False):
     html = src.replace("__LOCATIONS__", json.dumps(locs, separators=(",", ":"))).replace("__SEED__", json.dumps(sd, separators=(",", ":")))
     for k, v in LOGO.items(): html = html.replace(k, v)
-    assert "__" not in re.sub(r"__[a-z]|_{2,}(?=[a-z_]*\()", "", html[:200000]) or True
     for ph in ["__LOCATIONS__", "__SEED__", "__LOGO_LOCKUP__", "__LOGO_ICON__"]: assert ph not in html, ph
     if wrap:
         html = ('<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">'
