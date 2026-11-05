@@ -4,19 +4,24 @@
 <style>
 /* Layout: fixed top bar, left rail on desktop / bottom tabs on phone, scrolling main pane. */
 :root{
-  --bg:#F6F5F9; --surface:#FFFFFF; --surface2:#F0EEF7; --fg:#1E1D26; --muted:#5F5E6B; --faint:#8E8C9E;
-  --line:#DEDBEA; --accent:#3F3597; --accent-ink:#FFFFFF; --accent-soft:#E9E6FF;
+  --bg:#F3F4F7; --surface:#FFFFFF; --surface2:#EEF1F6; --fg:#232A34; --muted:#5B6473; --faint:#8A93A3;
+  --line:#D9DEE7; --accent:#1B2B45; --accent-ink:#FFFFFF; --accent-soft:#E4E9F2; --gold:#C9A24A; --gold-soft:#F6EDD6; --gold-ink:#2A1F05;
+  --rail-bg:#15223A; --rail-fg:#C7D0E0; --rail-active:#E7C76A; --rail-hover:rgba(255,255,255,.07);
   --ok:#1F7A4D; --ok-soft:#DDF3E6; --warn:#A35A00; --warn-soft:#FFE9CC; --crit:#B3261E; --crit-soft:#FADBD8; --info:#1D5BA6; --info-soft:#DCE8FA;
   --display:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif; --body:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif; --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
   --radius:10px; --shadow:0 1px 2px rgba(30,29,38,.06),0 4px 14px rgba(30,29,38,.06);
 }
 @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
-  --bg:#141320; --surface:#1C1B2A; --surface2:#242336; --fg:#EEEDF5; --muted:#B4B2C4; --faint:#7F7D93; --line:#33324A;
-  --accent:#9A91F2; --accent-ink:#141320; --accent-soft:#2A2750; --ok:#5FD39A; --ok-soft:#173B2A; --warn:#F2B86B; --warn-soft:#3F2E12; --crit:#F08A83; --crit-soft:#46201D; --info:#7FB3F5; --info-soft:#1B2E48;
+  --bg:#0E1726; --surface:#152237; --surface2:#1C2B44; --fg:#EEF2F8; --muted:#B5BFCF; --faint:#7F8BA0; --line:#2A3B58;
+  --accent:#A9BEE0; --accent-ink:#0E1726; --accent-soft:#223455; --gold:#D8B964; --gold-soft:#3A3014; --gold-ink:#1A1405;
+  --rail-bg:#0B1322; --rail-fg:#B7C2D6; --rail-active:#E7C76A; --rail-hover:rgba(255,255,255,.06);
+  --ok:#5FD39A; --ok-soft:#173B2A; --warn:#F2B86B; --warn-soft:#3F2E12; --crit:#F08A83; --crit-soft:#46201D; --info:#7FB3F5; --info-soft:#1B2E48;
   --shadow:0 1px 2px rgba(0,0,0,.3),0 4px 14px rgba(0,0,0,.3); color-scheme:dark }}
 :root[data-theme="dark"]{
-  --bg:#141320; --surface:#1C1B2A; --surface2:#242336; --fg:#EEEDF5; --muted:#B4B2C4; --faint:#7F7D93; --line:#33324A;
-  --accent:#9A91F2; --accent-ink:#141320; --accent-soft:#2A2750; --ok:#5FD39A; --ok-soft:#173B2A; --warn:#F2B86B; --warn-soft:#3F2E12; --crit:#F08A83; --crit-soft:#46201D; --info:#7FB3F5; --info-soft:#1B2E48;
+  --bg:#0E1726; --surface:#152237; --surface2:#1C2B44; --fg:#EEF2F8; --muted:#B5BFCF; --faint:#7F8BA0; --line:#2A3B58;
+  --accent:#A9BEE0; --accent-ink:#0E1726; --accent-soft:#223455; --gold:#D8B964; --gold-soft:#3A3014; --gold-ink:#1A1405;
+  --rail-bg:#0B1322; --rail-fg:#B7C2D6; --rail-active:#E7C76A; --rail-hover:rgba(255,255,255,.06);
+  --ok:#5FD39A; --ok-soft:#173B2A; --warn:#F2B86B; --warn-soft:#3F2E12; --crit:#F08A83; --crit-soft:#46201D; --info:#7FB3F5; --info-soft:#1B2E48;
   --shadow:0 1px 2px rgba(0,0,0,.3),0 4px 14px rgba(0,0,0,.3); color-scheme:dark }
 *{box-sizing:border-box}
 html,body{height:100%}
@@ -30,9 +35,21 @@ h1,h2,h3{text-wrap:balance;margin:0}
 .app{display:grid;grid-template-rows:auto 1fr;height:100%}
 /* top bar */
 .top{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:var(--surface);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:14px;padding-block:10px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
-.brand{display:flex;align-items:center;gap:10px;min-width:0}
-.brand .wordmark{font-family:var(--display);font-weight:800;letter-spacing:.14em;font-size:17px}
-.brand .sub{font-size:11px;color:var(--faint);letter-spacing:.08em;text-transform:uppercase;white-space:nowrap}
+.brand{display:flex;align-items:center;gap:12px;min-width:0}
+.brand .logo{height:38px;width:auto;display:block}
+.brand .divider{width:1px;height:28px;background:var(--line)}
+.brand .wordmark{font-family:var(--display);font-weight:800;letter-spacing:.14em;font-size:16px;line-height:1}
+.brand .sub{font-size:10.5px;color:var(--faint);letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;margin-top:3px}
+.bell{position:relative;border:1px solid var(--line);background:var(--surface);border-radius:8px;width:36px;height:36px;display:grid;place-items:center;cursor:pointer;color:var(--fg)}
+.bell:hover{background:var(--surface2)}
+.bell .badge{position:absolute;top:-6px;right:-6px}
+.notif-panel{position:fixed;right:max(16px,env(safe-area-inset-right,0px));top:calc(64px + env(safe-area-inset-top,0px));width:min(420px,92vw);max-height:70vh;overflow:auto;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);z-index:30;padding:8px 0}
+.notif-panel .hd{display:flex;align-items:center;gap:8px;padding:8px 14px;border-bottom:1px solid var(--line);font-weight:700}
+.notif{display:grid;grid-template-columns:10px 1fr;gap:10px;padding:10px 14px;border-bottom:1px solid var(--line);cursor:pointer;font-size:12.5px}
+.notif:hover{background:var(--surface2)}
+.notif .d{width:8px;height:8px;border-radius:50%;background:var(--gold);margin-top:5px}
+.notif.seen .d{background:var(--line)}
+.notif .m{color:var(--muted);font-size:11.5px}
 .spacer{flex:1}
 .role{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--muted)}
 .role select{font:inherit;color:var(--fg);background:var(--surface2);border:1px solid var(--line);border-radius:8px;padding:6px 8px}
@@ -40,14 +57,15 @@ h1,h2,h3{text-wrap:balance;margin:0}
 .avatar img{width:100%;height:100%;object-fit:cover}
 /* shell */
 .shell{display:grid;grid-template-columns:220px 1fr;min-height:0}
-.rail{border-right:1px solid var(--line);background:var(--surface);padding:14px 10px;display:flex;flex-direction:column;gap:4px}
-.rail button{display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:none;border:0;border-radius:8px;padding:9px 12px;color:var(--muted);font-weight:600;cursor:pointer}
-.rail button:hover{background:var(--surface2);color:var(--fg)}
-.rail button.active{background:var(--accent-soft);color:var(--accent)}
+.rail{background:var(--rail-bg);padding:14px 10px;display:flex;flex-direction:column;gap:4px}
+.rail button{display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:none;border:0;border-radius:8px;padding:9px 12px;color:var(--rail-fg);font-weight:600;cursor:pointer}
+.rail button:hover{background:var(--rail-hover);color:#fff}
+.rail button.active{background:var(--rail-hover);color:var(--rail-active);box-shadow:inset 3px 0 0 var(--rail-active)}
 .rail button .badge{margin-left:auto}
-.rail .cta{margin:6px 0 10px;background:var(--accent);color:var(--accent-ink);justify-content:center}
-.rail .cta:hover{background:var(--accent);color:var(--accent-ink);filter:brightness(1.05)}
-.rail .foot{margin-top:auto;font-size:11.5px;color:var(--faint);padding:10px 12px;line-height:1.4}
+.rail .cta{margin:6px 0 10px;background:var(--gold);color:var(--gold-ink);justify-content:center;box-shadow:none}
+.rail .cta:hover{background:var(--gold);color:var(--gold-ink);filter:brightness(1.06)}
+.rail .foot{margin-top:auto;font-size:11.5px;color:var(--rail-fg);opacity:.8;padding:10px 12px;line-height:1.4}
+.rail .foot img{height:34px;width:auto;display:block;margin-bottom:8px;opacity:.95}
 main{min-width:0;overflow:auto;padding-block:20px 40px;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
 .page{max-width:1180px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
 .page-head{display:flex;flex-wrap:wrap;align-items:flex-end;gap:12px}
@@ -69,7 +87,7 @@ main{min-width:0;overflow:auto;padding-block:20px 40px;padding-left:max(20px,env
 .pill::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
 .s-filed{background:var(--info-soft);color:var(--info)}
 .s-assessed{background:var(--warn-soft);color:var(--warn)}
-.s-approved,.s-routed,.s-scheduled{background:var(--accent-soft);color:var(--accent)}
+.s-approved,.s-routed,.s-scheduled,.s-en_route,.s-inspection{background:var(--accent-soft);color:var(--accent)}
 .s-in_progress{background:var(--info-soft);color:var(--info)}
 .s-completed,.s-invoiced{background:var(--ok-soft);color:var(--ok)}
 .s-closed{background:var(--surface2);color:var(--muted)}
@@ -96,6 +114,7 @@ input:focus,select:focus,textarea:focus,button:focus-visible{outline:2px solid v
 .btn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:8px;padding:9px 14px;font-weight:700;cursor:pointer}
 .btn:hover{background:var(--surface2)}
 .btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn.gold{background:var(--gold);border-color:var(--gold);color:var(--gold-ink)}
 .btn.primary:hover{filter:brightness(1.06);background:var(--accent)}
 .btn.danger{color:var(--crit);border-color:var(--crit)}
 .btn.sm{padding:6px 10px;font-size:12.5px}
@@ -108,11 +127,13 @@ input:focus,select:focus,textarea:focus,button:focus-visible{outline:2px solid v
 .empty b{color:var(--fg)}
 .toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--fg);color:var(--bg);padding:10px 16px;border-radius:999px;font-weight:600;box-shadow:var(--shadow);z-index:20;max-width:90vw}
 /* stepper */
-.steps{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:4px}
+.steps{display:grid;grid-template-columns:repeat(9,minmax(0,1fr));gap:4px}
 .step{text-align:center;font-size:11px;color:var(--faint);padding-top:8px;position:relative}
 .step::before{content:"";display:block;height:6px;border-radius:3px;background:var(--line);margin-bottom:6px}
-.step.done::before{background:var(--ok)}.step.now::before{background:var(--accent)}
-.step.now{color:var(--accent);font-weight:700}.step.done{color:var(--ok)}
+.step.done::before{background:var(--accent)}.step.now::before{background:var(--gold)}
+.step.now{color:var(--gold-ink);font-weight:700}.step.done{color:var(--accent)}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .step.now{color:var(--gold)} }
+:root[data-theme="dark"] .step.now{color:var(--gold)}
 /* detail */
 .detail-head{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
 .detail-head h1{font-size:20px}
@@ -136,7 +157,7 @@ input:focus,select:focus,textarea:focus,button:focus-visible{outline:2px solid v
 .action-item .dot{width:10px;height:10px;border-radius:50%;background:var(--crit)}
 .action-item .dot.warn{background:var(--warn)}.action-item .dot.info{background:var(--info)}
 .action-item .what{font-weight:700}.action-item .who{font-size:12px;color:var(--muted)}
-.hint{background:var(--accent-soft);color:var(--fg);border-radius:var(--radius);padding:12px 14px;font-size:13px}
+.hint{background:var(--gold-soft);color:var(--fg);border-radius:var(--radius);padding:12px 14px;font-size:13px;border-left:4px solid var(--gold)}
 .hint b{color:var(--accent)}
 .split{display:grid;grid-template-columns:2fr 1fr;gap:14px}
 @media (max-width:900px){
@@ -144,12 +165,12 @@ input:focus,select:focus,textarea:focus,button:focus-visible{outline:2px solid v
   .rail{display:none}
   .tabs{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:9;background:var(--surface);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px);padding-left:max(0px,env(safe-area-inset-left,0px));padding-right:max(0px,env(safe-area-inset-right,0px))}
   .tabs button{flex:1;background:none;border:0;padding:10px 4px;font-size:11px;font-weight:700;color:var(--muted)}
-  .tabs button.active{color:var(--accent)}
+  .tabs button.active{color:var(--gold-ink);background:var(--gold-soft)}
   main{padding-bottom:84px}
   .g2,.g3,.g4,.g6{grid-template-columns:repeat(2,minmax(0,1fr))}
   .split{grid-template-columns:1fr}
   .kv{grid-template-columns:1fr}
-  .steps{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .steps{grid-template-columns:repeat(3,minmax(0,1fr))}
   .log li{grid-template-columns:1fr}
   .role .lbl{display:none}
 }
@@ -160,10 +181,12 @@ input:focus,select:focus,textarea:focus,button:focus-visible{outline:2px solid v
 <div class="app">
   <header class="top">
     <div class="brand">
-      <span class="wordmark">STIIIZY</span>
-      <span class="sub">Maintenance portal · run by Prime PM</span>
+      <img class="logo" alt="Prime Property Maintainers" src="data:image/png;base64,__LOGO_LOCKUP__">
+      <span class="divider"></span>
+      <div><div class="wordmark">STIIIZY</div><div class="sub">Maintenance portal</div></div>
     </div>
     <div class="spacer"></div>
+    <button class="bell" id="bell" aria-label="Notifications" onclick="toggleNotif()">&#128276;<span class="badge zero" id="bellCount">0</span></button>
     <div class="role">
       <span class="lbl">Working as</span>
       <select id="roleSel" aria-label="Your role">
@@ -185,16 +208,18 @@ input:focus,select:focus,textarea:focus,button:focus-visible{outline:2px solid v
 // ------------------------------------------------------------------ reference data
 const LOCATIONS = __LOCATIONS__;
 const TRADES = ["HVAC","Plumbing","Electrical","Doors / Gates","Roofing","General repair","Locks / Glass","Signage / Lighting","Appliance / Equipment","Other"];
-const STATUS_FLOW = ["filed","assessed","approved","routed","scheduled","in_progress","completed","invoiced","closed"];
-const STATUS_LABEL = {filed:"Filed",assessed:"Awaiting approval",approved:"Approved",routed:"Routed to vendor",scheduled:"Scheduled",in_progress:"In progress",completed:"Completed",invoiced:"Invoiced",closed:"Closed",declined:"Declined",on_hold:"On hold",cancelled:"Cancelled"};
-const STEP_LABEL = ["Filed","Priced","Approved","Routed","Scheduled","In progress","Completed","Invoiced"];
+const STATUS_FLOW = ["filed","inspection","assessed","approved","routed","en_route","in_progress","completed","invoiced","closed"];
+const STATUS_LABEL = {filed:"Ticket filed",inspection:"Inspection scheduled",assessed:"Awaiting approval",approved:"Budget approved",routed:"Vendor selected",en_route:"Vendor en route",in_progress:"Job in progress",completed:"Verify and close",invoiced:"Pay the vendor",closed:"Closed",declined:"Declined",on_hold:"On hold",cancelled:"Cancelled"};
+const STEP_LABEL = ["STIIIZY files the ticket","Inspection scheduled","Scope and price","Budget approved","Select vendor","Vendor en route","Run the job","Verify and close","Pay the vendor"];
+const STAGE_ACTIONS = new Set(["Filed","Inspection scheduled","Inspection rescheduled","Priced","Budget approved","Budget declined","Sent to direct vendor","Awarded on DMG","Vendor en route","Vendor on site","Work completed","Signed off","Sent back","Vendor invoice recorded","Closed","On hold","Resumed","Cancelled"]);
 const PRIORITY = {emergency:"Emergency (same business day)",urgent:"Urgent (2 business days)",routine:"Routine (5 business days)"};
-const DEFAULT_SETTINGS = {approverName:"", feeDirectLow:10, feeDirectHigh:7, feeBreak:5000, feeDmg:6, dmgPlatform:10, vendorRule:"lowest", emergencyPhone:"(661) 390-0710", emergencyEmail:"client@theprimepm.com", slaEmergencyHours:4, slaUrgentDays:2, slaRoutineDays:5};
+const DEFAULT_SETTINGS = {approverName:"", upfrontPct:50, notifyEmail:"client@theprimepm.com", feeDirectLow:10, feeDirectHigh:7, feeBreak:5000, feeDmg:6, dmgPlatform:10, vendorRule:"lowest", emergencyPhone:"(661) 390-0710", emergencyEmail:"client@theprimepm.com", slaEmergencyHours:4, slaUrgentDays:2, slaRoutineDays:5};
 
 // ------------------------------------------------------------------ state
-const S = {view:"dashboard", ticketId:null, role:"store", tickets:[], settings:{...DEFAULT_SETTINGS}, db:null, user:null, me:null, canWrite:null, loaded:false, loadNote:"", demo:false, filters:{q:"",status:"",region:"",trade:"",route:"",priority:""}, locQ:"", locRegion:"", period:"90"};
-try{ S.role = localStorage.getItem("stz_role") || "store"; }catch(e){}
-const VALID_VIEWS = ["dashboard","tickets","new","ticket","locations","reports","settings","help"];
+const S = {view:"dashboard", ticketId:null, role:"store", tickets:[], emails:[], notifOpen:false, seenAt:"", mcp:null, portalUrl:"", settings:{...DEFAULT_SETTINGS}, db:null, user:null, me:null, canWrite:null, loaded:false, loadNote:"", demo:false, filters:{q:"",status:"",region:"",trade:"",route:"",priority:""}, locQ:"", locRegion:"", period:"90"};
+try{ S.role = localStorage.getItem("stz_role") || "store"; S.seenAt = localStorage.getItem("stz_seen") || ""; }catch(e){}
+try{ S.portalUrl = location.href.startsWith("http") ? location.href.split("#")[0] : ""; }catch(e){}
+const VALID_VIEWS = ["dashboard","tickets","new","ticket","locations","reports","settings","help","notifications"];
 { const h = (location.hash||"").replace("#",""); if (VALID_VIEWS.includes(h)) S.view = h; }
 
 // ------------------------------------------------------------------ helpers
@@ -215,14 +240,15 @@ function feeFor(awarded, route, st){ st=st||S.settings; awarded=Number(awarded)|
   if(route==="dmg") return {rate:`${st.feeDmg}% flat (DMG route)`, fee: +(awarded*st.feeDmg/100).toFixed(2)};
   const low=Math.min(awarded,st.feeBreak), high=Math.max(awarded-st.feeBreak,0);
   return {rate: high>0?`${st.feeDirectLow}% of first ${money(st.feeBreak)}, ${st.feeDirectHigh}% above`:`${st.feeDirectLow}%`, fee:+(low*st.feeDirectLow/100+high*st.feeDirectHigh/100).toFixed(2)}; }
-function stepIndex(status){ const i=STATUS_FLOW.indexOf(status); return i<0?0:i; }
+function stepIndex(status){ if(status==="closed") return STEP_LABEL.length; const i=STATUS_FLOW.indexOf(status); return i<0?0:i; }
+function upfront(t){ return (t.approval&&t.approval.decision==="approved"&&t.estimate)? +(t.estimate.total*(S.settings.upfrontPct||0)/100).toFixed(2) : null; }
 function roleName(r){ return {store:"Store / site",approver:"STIIIZY approver",assessor:"Prime PM assessor"}[r]||r; }
 function who(){ return (S.me&&S.me.name)?S.me.name:roleName(S.role); }
 function nextWO(){ const d=new Date(); const p=`WO-${String(d.getFullYear()).slice(2)}${String(d.getMonth()+1).padStart(2,"0")}-`; let n=S.tickets.filter(t=>t.id.startsWith(p)).length+1; let id=p+String(n).padStart(3,"0"); while(S.tickets.some(t=>t.id===id)){n++; id=p+String(n).padStart(3,"0");} return id; }
 function needsAction(t, role){ // what the current role must do on this ticket
-  if(role==="assessor"){ if(t.status==="filed") return "Price this ticket"; if(t.status==="approved") return "Route to a vendor"; if(t.status==="routed") return "Schedule the vendor"; if(t.status==="scheduled") return "Mark in progress on the day"; if(t.status==="in_progress") return "Close out with photos"; if(t.status==="completed"&&t.completion&&t.completion.signedOff) return "Enter the vendor invoice"; if(t.status==="invoiced") return "Close the ticket"; }
+  if(role==="assessor"){ if(t.status==="filed") return "Schedule inspection or price this ticket"; if(t.status==="inspection") return "Scope and price after the inspection"; if(t.status==="approved") return "Select the vendor"; if(t.status==="routed") return "Dispatch the vendor (set en route date)"; if(t.status==="en_route") return "Mark the vendor on site"; if(t.status==="in_progress") return "Close out with photos"; if(t.status==="completed"&&t.completion&&t.completion.signedOff) return "Enter the vendor invoice"; if(t.status==="invoiced") return "Close the ticket"; }
   if(role==="approver"){ if(t.status==="assessed") return "Approve or decline the price"; if(t.status==="completed"&&!(t.completion&&t.completion.signedOff)) return "Sign off the completed work"; }
-  if(role==="store"){ if(t.status==="completed"&&!(t.completion&&t.completion.signedOff)) return "Confirm the repair is done"; if(t.status==="scheduled") return "Vendor arriving "+(t.schedule&&t.schedule.date?fmtDate(t.schedule.date):"soon"); }
+  if(role==="store"){ if(t.status==="completed"&&!(t.completion&&t.completion.signedOff)) return "Confirm the repair is done"; if(t.status==="en_route") return "Vendor arriving "+(t.schedule&&t.schedule.date?fmtDate(t.schedule.date):"soon"); if(t.status==="inspection") return "Inspection "+(t.inspection&&t.inspection.date?fmtDate(t.inspection.date):"scheduled"); }
   return null; }
 function dueBy(t){ const st=S.settings; const d=new Date(t.createdAt); if(t.priority==="emergency") d.setHours(d.getHours()+st.slaEmergencyHours); else if(t.priority==="urgent") d.setDate(d.getDate()+st.slaUrgentDays); else d.setDate(d.getDate()+st.slaRoutineDays); return d.toISOString(); }
 function isOpen(t){ return !["closed","declined","cancelled"].includes(t.status); }
@@ -233,23 +259,26 @@ const SEED = __SEED__;
 function makeLocalDB(){
   const KEY="stz_demo_store_v1"; let store;
   try{ store = JSON.parse(localStorage.getItem(KEY)||"null"); }catch(e){ store=null; }
-  if(!store){ store={tickets:{}, settings:null, photos:{}}; SEED.forEach(d=>{ store.tickets[d.id]=d; }); }
+  if(!store){ store={tickets:{}, settings:null, photos:{}, emails:{}}; SEED.forEach(d=>{ store.tickets[d.id]=d; }); }
+  store.emails=store.emails||{};
   const listeners=[]; const persist=()=>{ try{ localStorage.setItem(KEY, JSON.stringify(store)); }catch(e){} };
   const snapDoc=(id,obj)=>({id, exists:!!obj, data:()=>obj, metadata:{fromCache:false,hasPendingWrites:false}});
   const fire=()=>{ listeners.forEach(fn=>fn()); };
   const col=(path)=>{ const parts=path.split("/");
+    if(path==="emails") return { add:async(data)=>{ const id="e"+Date.now()+Math.random().toString(36).slice(2,6); store.emails[id]={...data,id}; const ids=Object.keys(store.emails); if(ids.length>200) ids.sort().slice(0,ids.length-200).forEach(k=>delete store.emails[k]); persist(); fire(); }, onSnapshot(next){ const fn=()=>next({docs:Object.values(store.emails).map(d=>snapDoc(d.id,d)), metadata:{fromCache:false,hasPendingWrites:false}}); listeners.push(fn); fn(); return ()=>{ const i=listeners.indexOf(fn); if(i>=0) listeners.splice(i,1); }; } };
     if(path==="tickets") return { onSnapshot(next){ const fn=()=>next({docs:Object.values(store.tickets).map(d=>snapDoc(d.id,d)), metadata:{fromCache:false,hasPendingWrites:false}}); listeners.push(fn); fn(); return ()=>{ const i=listeners.indexOf(fn); if(i>=0) listeners.splice(i,1); }; } };
     if(parts.length===3&&parts[2]==="photos"){ const tid=parts[1]; return { add:async(data)=>{ store.photos[tid]=store.photos[tid]||[]; store.photos[tid].push({...data, pid:"p"+Date.now()}); persist(); fire(); }, onSnapshot(next){ const fn=()=>next({docs:(store.photos[tid]||[]).map(d=>snapDoc(d.pid,d)), metadata:{fromCache:false,hasPendingWrites:false}}); listeners.push(fn); fn(); return ()=>{ const i=listeners.indexOf(fn); if(i>=0) listeners.splice(i,1); }; } }; }
     throw new Error("unsupported collection "+path); };
   const doc=(path)=>{ const parts=path.split("/");
     if(parts[0]==="tickets"&&parts.length===2){ const id=parts[1]; return { set:async(body)=>{ store.tickets[id]={...body,id}; persist(); fire(); }, delete:async()=>{ delete store.tickets[id]; persist(); fire(); } }; }
+    if(parts[0]==="emails"&&parts.length===2){ const id=parts[1]; return { update:async(body)=>{ store.emails[id]={...store.emails[id],...body}; persist(); fire(); }, set:async(body)=>{ store.emails[id]={...body,id}; persist(); fire(); } }; }
     if(path==="settings/account") return { set:async(body)=>{ store.settings=body; persist(); fire(); }, onSnapshot(next){ const fn=()=>next(snapDoc("account", store.settings)); listeners.push(fn); fn(); return ()=>{}; } };
     throw new Error("unsupported doc "+path); };
-  return { collection:col, doc, _reset(){ store={tickets:{}, settings:null, photos:{}}; SEED.forEach(d=>{ store.tickets[d.id]=d; }); persist(); fire(); } };
+  return { collection:col, doc, _reset(){ store={tickets:{}, settings:null, photos:{}, emails:{}}; SEED.forEach(d=>{ store.tickets[d.id]=d; }); persist(); fire(); } };
 }
 function resetDemo(){ if(S.db&&S.db._reset){ S.db._reset(); toast("Demo data reset"); go("dashboard"); } }
 
-function sanitizeTicket(d,id){ if(!SAFE_ID.test(id)) return null; const t={...d,id}; t.status=cls(t.status,ALL_STATUS)==="unknown"?"filed":t.status; t.priority=["emergency","urgent","routine"].includes(t.priority)?t.priority:"routine"; t.route=t.route==="dmg"?"dmg":"direct"; if(t.holdFrom&&!STATUS_FLOW.includes(t.holdFrom)) t.holdFrom="filed"; return t; }
+function sanitizeTicket(d,id){ if(!SAFE_ID.test(id)) return null; const t={...d,id}; if(t.status==="scheduled") t.status="en_route"; t.status=cls(t.status,ALL_STATUS)==="unknown"?"filed":t.status; t.priority=["emergency","urgent","routine"].includes(t.priority)?t.priority:"routine"; t.route=t.route==="dmg"?"dmg":"direct"; if(t.holdFrom&&!STATUS_FLOW.includes(t.holdFrom)) t.holdFrom="filed"; return t; }
 // ------------------------------------------------------------------ storage
 let unsubT=null, unsubS=null, writing=false;
 async function initData(){
@@ -260,7 +289,10 @@ async function initData(){
   if(!db){ S.demo=true; S.db=makeLocalDB(); S.loaded=true;
     unsubT = S.db.collection("tickets").onSnapshot(snap=>{ S.tickets=snap.docs.map(d=>sanitizeTicket(d.data(),d.id)).filter(Boolean).sort((a,b)=>(b.createdAt||"").localeCompare(a.createdAt||"")); render(); });
     unsubS = S.db.doc("settings/account").onSnapshot(snap=>{ if(snap.exists) S.settings={...DEFAULT_SETTINGS, ...snap.data()}; render(); });
+    S.db.collection("emails").onSnapshot(snap=>{ S.emails=snap.docs.map(d=>({...d.data(), id:d.id})).sort((a,b)=>(b.at||"").localeCompare(a.at||"")); render(); });
     return; }
+  window.claude?.use?.("mcp").then(m=>{ S.mcp=m||null; if(m) flushOutbox(); }).catch(()=>{});
+  db.collection("emails").onSnapshot(snap=>{ S.emails=snap.docs.filter(d=>d.exists).map(d=>({...d.data(), id:d.id})).sort((a,b)=>(b.at||"").localeCompare(a.at||"")).slice(0,200); render(); }, ()=>{});
   const timer=setTimeout(()=>{ if(!S.loaded){ S.loadNote="The shared store has not answered yet. Tickets may be out of date."; render(); } },10000);
   unsubT = db.collection("tickets").onSnapshot(snap=>{
     S.tickets = snap.docs.filter(d=>d.exists).map(d=>sanitizeTicket(d.data(),d.id)).filter(Boolean).sort((a,b)=> (b.createdAt||"").localeCompare(a.createdAt||""));
@@ -275,7 +307,7 @@ async function saveTicket(t, action, note){
   const {id, ...body}=t;
   if(writing) { toast("Still saving the last change"); return false; }
   writing=true;
-  try{ await S.db.doc("tickets/"+id).set(body); writing=false; return true; }
+  try{ await S.db.doc("tickets/"+id).set(body); writing=false; if(STAGE_ACTIONS.has(action)) notifyStage(t, action, note); return true; }
   catch(e){ writing=false; if(e&&e.code==="invalid_argument") { S.canWrite=false; toast("You have view-only access. Ask Prime PM to add you as a contributor."); } else if(e&&e.code==="quota_exceeded"){ toast("The ticket store is full. Contact Prime PM."); } else toast("Could not save: "+(e&&e.code||"error")); return false; }
 }
 async function saveSettings(){ if(!S.db) return false; try{ await S.db.doc("settings/account").set(S.settings); toast("Settings saved"); return true; }catch(e){ toast("Could not save settings"); return false; } }
@@ -291,6 +323,31 @@ const photoCache={}; let photoUnsub=null, photoFor=null;
 function loadPhotos(id, force){ if(!S.db) return; if(photoFor===id && !force) return; if(photoUnsub) photoUnsub(); photoFor=id;
   photoUnsub = S.db.collection("tickets/"+id+"/photos").onSnapshot(snap=>{ photoCache[id]=snap.docs.filter(d=>d.exists).map(d=>({...d.data(), pid:d.id})).sort((a,b)=>(a.at||"").localeCompare(b.at||"")); if(S.view==="ticket"&&S.ticketId===id) render(); }, ()=>{}); }
 
+// ------------------------------------------------------------------ notifications and email
+function stageSubject(t, action){ const pre = action==="Budget approved" ? "APPROVED" : action==="Filed" ? (t.priority==="emergency"?"EMERGENCY":"NEW") : action.toUpperCase(); return `[STIIIZY ${t.id}] ${pre}: ${t.title}`; }
+function stageBody(t, action, note){ const up=upfront(t); const lines=[
+  `Ticket ${t.id} moved to: ${STATUS_LABEL[t.status]||t.status}`, `Action: ${action}${note?" ("+note+")":""}`, `By: ${who()} (${roleName(S.role)})`, "",
+  `Location: ${t.locName}, ${t.locAddr}`, `Issue: ${t.title}`, `Trade: ${t.trade} · Priority: ${t.priority} · Route: ${t.route==="direct"?"Direct Prime PM vendor":"DMG"}`,
+  t.estimate?`Approved / NTE budget: ${money(t.estimate.total)}`:"", up!=null?`Due upfront from STIIIZY (${S.settings.upfrontPct}%): ${money(up)}`:"",
+  t.routing&&t.routing.awarded?`Awarded: ${money(t.routing.awarded)} to ${t.routing.awardedVendor||t.vendor}`:"", t.schedule&&t.schedule.date?`Vendor en route: ${t.schedule.date} ${t.schedule.window||""}`:"",
+  t.invoice?`Vendor invoice: ${money(t.invoice.amount)} · Prime PM fee: ${money(t.invoice.fee)}`:"", "", S.portalUrl?`Open the portal: ${S.portalUrl}`:"", "Prime Property Maintainers LLC · STIIIZY Maintenance Portal"].filter(l=>l!==""); return lines.join("\n"); }
+async function notifyStage(t, action, note){
+  const to=(S.settings.notifyEmail||"client@theprimepm.com").trim(); if(!to) return;
+  const rec={to, subject:stageSubject(t,action), body:stageBody(t,action,note), ticketId:t.id, action, at:nowIso(), status:"queued", by:who()};
+  const sent=await trySend(rec); rec.status=sent?"sent":"queued"; if(sent) rec.sentAt=nowIso();
+  try{ await S.db.collection("emails").add(rec); }catch(e){}
+}
+async function trySend(rec){ if(!S.mcp) return false; try{ await S.mcp.callTool("Gmail","send_message",{to:[rec.to], subject:rec.subject, body:rec.body}); return true; }catch(e){ return false; } }
+async function flushOutbox(){ if(!S.mcp||!S.db) return; const queued=S.emails.filter(e=>e.status==="queued").slice(0,20); let n=0; for(const e of queued){ if(await trySend(e)){ n++; try{ await S.db.doc("emails/"+e.id).update({status:"sent", sentAt:nowIso()}); }catch(x){} } } if(n) toast(n+" queued email"+(n>1?"s":"")+" sent to "+(S.settings.notifyEmail||"client@theprimepm.com")); }
+function notifList(){ const out=[]; S.tickets.forEach(t=>(t.history||[]).forEach(h=>{ if(STAGE_ACTIONS.has(h.action)) out.push({t:h.t, id:t.id, title:t.title, action:h.action, who:h.who, note:h.note, loc:t.locName}); })); return out.sort((a,b)=>b.t.localeCompare(a.t)).slice(0,40); }
+function unseenCount(){ return notifList().filter(n=>n.t>S.seenAt).length; }
+function toggleNotif(){ S.notifOpen=!S.notifOpen; renderNotif(); if(!S.notifOpen) markSeen(); }
+function markSeen(){ S.seenAt=nowIso(); try{ localStorage.setItem("stz_seen",S.seenAt); }catch(e){} renderBell(); }
+function renderBell(){ const n=unseenCount(); const b=$("bellCount"); b.textContent=n; b.className="badge"+(n?"":" zero"); }
+function renderNotif(){ let p=$("notifPanel"); if(!S.notifOpen){ if(p) p.remove(); return; } if(!p){ p=document.createElement("div"); p.id="notifPanel"; p.className="notif-panel"; document.body.appendChild(p); }
+  const list=notifList(); p.innerHTML=`<div class="hd">Notifications<span class="spacer"></span><button class="btn sm" onclick="go('notifications');S.notifOpen=false;renderNotif();markSeen()">Email log</button><button class="btn sm" onclick="markSeen();S.notifOpen=false;renderNotif()">Close</button></div>${list.length?list.map(n=>`<div class="notif ${n.t>S.seenAt?'':'seen'}" onclick="go('ticket','${esc(n.id)}');S.notifOpen=false;renderNotif();markSeen()"><span class="d"></span><div><b>${esc(n.action)}</b> · ${esc(n.id)} ${esc(n.title)}<div class="m">${esc(n.loc)} · ${esc(n.who)}${n.note?" · "+esc(n.note):""} · ${fmtDT(n.t)}</div></div></div>`).join(""):`<div class="note" style="padding:14px">No activity yet.</div>`}`; }
+document.addEventListener("click",e=>{ if(S.notifOpen&&!e.target.closest("#notifPanel")&&!e.target.closest("#bell")){ S.notifOpen=false; renderNotif(); markSeen(); } });
+
 // ------------------------------------------------------------------ navigation
 function go(view, id){ S.view=view; if(id!==undefined) S.ticketId=id; if(view!=="ticket"){ try{ history.replaceState(null,"","#"+view);}catch(e){} } render(); $("main").scrollTop=0; }
 window.addEventListener("hashchange",()=>{ const h=(location.hash||"").replace("#",""); if(VALID_VIEWS.includes(h)&&h!=="ticket"){ S.view=h; render(); } });
@@ -299,11 +356,11 @@ $("roleSel").value=S.role; $("roleSel").addEventListener("change",e=>{ S.role=e.
 function renderAvatar(){ const a=$("avatar"); if(S.me&&S.me.avatarUrl){ a.innerHTML=`<img alt="" src="${esc(S.me.avatarUrl)}">`; a.title=S.me.name||"You"; } }
 function renderNav(){
   const mine = S.tickets.filter(t=>needsAction(t,S.role)).length;
-  const items=[["dashboard","Dashboard"],["tickets","Tickets"],["locations","Locations"],["reports","Reports"],["settings","Settings"],["help","How it works"]];
-  $("rail").innerHTML = `<button class="cta" onclick="go('new')">+ File a ticket</button>` + items.map(([v,l])=>`<button class="${S.view===v||(v==='tickets'&&S.view==='ticket')?'active':''}" onclick="go('${v}')">${l}${v==='dashboard'?`<span class="badge ${mine?'':'zero'}">${mine}</span>`:''}</button>`).join("") + `<div class="foot">Prime Property Maintainers LLC<br>Emergencies: ${esc(S.settings.emergencyPhone)}</div>`;
+  const items=[["dashboard","Dashboard"],["tickets","Tickets"],["notifications","Notifications"],["locations","Locations"],["reports","Reports"],["settings","Settings"],["help","How it works"]];
+  $("rail").innerHTML = `<button class="cta" onclick="go('new')">+ File a ticket</button>` + items.map(([v,l])=>`<button class="${S.view===v||(v==='tickets'&&S.view==='ticket')?'active':''}" onclick="go('${v}')">${l}${v==='dashboard'?`<span class="badge ${mine?'':'zero'}">${mine}</span>`:''}</button>`).join("") + `<div class="foot"><img alt="" src="data:image/png;base64,__LOGO_ICON__">Prime Property Maintainers LLC<br>Emergencies: ${esc(S.settings.emergencyPhone)}</div>`;
   $("tabs").innerHTML = [["dashboard","Home"],["tickets","Tickets"],["new","+ File"],["reports","Reports"],["help","Help"]].map(([v,l])=>`<button class="${S.view===v?'active':''}" onclick="go('${v}')">${l}</button>`).join("");
 }
-function render(){ renderNav(); const m=$("main"); const fn={dashboard:vDashboard,tickets:vTickets,new:vNew,ticket:vTicket,locations:vLocations,reports:vReports,settings:vSettings,help:vHelp}[S.view]||vDashboard; m.innerHTML=`<div class="page">${S.demo?`<div class="hint"><b>Demo mode.</b> Tickets you file here are saved in this browser only. Nine example tickets are preloaded. <a href="#" onclick="resetDemo();return false">Reset the demo data</a></div>`:""}${S.loadNote?`<div class="hint"><b>Heads up.</b> ${esc(S.loadNote)}</div>`:""}${S.canWrite===false?`<div class="hint"><b>View only.</b> You can read every ticket but not change them. Ask Prime PM to add you as a contributor.</div>`:""}${fn()}</div>`; }
+function render(){ renderNav(); renderBell(); if(S.notifOpen) renderNotif(); const m=$("main"); const fn={dashboard:vDashboard,tickets:vTickets,new:vNew,ticket:vTicket,locations:vLocations,reports:vReports,settings:vSettings,help:vHelp,notifications:vNotifications}[S.view]||vDashboard; m.innerHTML=`<div class="page">${S.demo?`<div class="hint"><b>Demo mode.</b> Tickets you file here are saved in this browser only. Nine example tickets are preloaded. <a href="#" onclick="resetDemo();return false">Reset the demo data</a></div>`:""}${S.loadNote?`<div class="hint"><b>Heads up.</b> ${esc(S.loadNote)}</div>`:""}${S.canWrite===false?`<div class="hint"><b>View only.</b> You can read every ticket but not change them. Ask Prime PM to add you as a contributor.</div>`:""}${fn()}</div>`; }
 
 // ------------------------------------------------------------------ views
 function vDashboard(){
@@ -321,7 +378,7 @@ function vDashboard(){
     <div class="card kpi"><div class="v num">${open.length}</div><div class="l">Open tickets</div></div>
     <div class="card kpi ${actions.length?'alert':''}"><div class="v num">${actions.length}</div><div class="l">Need your action</div></div>
     <div class="card kpi ${emerg?'alert':''}"><div class="v num">${emerg}</div><div class="l">Open emergencies</div></div>
-    <div class="card kpi"><div class="v num">${open.filter(t=>["routed","scheduled","in_progress"].includes(t.status)).length}</div><div class="l">With a vendor now</div></div>
+    <div class="card kpi"><div class="v num">${open.filter(t=>["routed","en_route","in_progress"].includes(t.status)).length}</div><div class="l">With a vendor now</div></div>
     <div class="card kpi good"><div class="v num">${closedM.length}</div><div class="l">Closed this month</div></div>
     <div class="card kpi"><div class="v num">${avgDays}</div><div class="l">Avg days to close</div></div>
   </div>
@@ -329,13 +386,13 @@ function vDashboard(){
     <div class="card"><h2>Action center</h2>${actions.length?actions.map(t=>`<div class="action-item"><span class="dot ${t.priority==='emergency'?'':t.priority==='urgent'?'warn':'info'}"></span><div><div class="what">${esc(needsAction(t,S.role))}: <a href="#" onclick="go('ticket','${t.id}');return false">${esc(t.id)}</a> ${esc(t.title)}</div><div class="who">${esc(t.locName)} · ${esc(t.trade)} · filed ${fmtDate(t.createdAt)}</div></div><button class="btn sm" onclick="go('ticket','${t.id}')">Open</button></div>`).join(""):`<div class="empty">Nothing waiting on you as ${esc(roleName(S.role))}.${S.tickets.length?"":" <br><b>No tickets yet.</b> File the first one with the button above."}</div>`}</div>
     <div class="card"><h2>Open tickets by status</h2>${byStatus.length?byStatus.map(([l,n])=>`<div class="bar"><span class="lbl">${l}</span><span class="track"><span class="fill" style="width:${Math.round(n/Math.max(1,S.tickets.length)*100)}%"></span></span><span class="val num">${n}</span></div>`).join(""):`<div class="note">No tickets yet.</div>`}
       <h2 style="margin-top:14px">Route</h2><div class="bar"><span class="lbl">Direct Prime PM vendor</span><span class="track"><span class="fill" style="width:${Math.round(routeD/Math.max(1,open.length)*100)}%;background:var(--ok)"></span></span><span class="val num">${routeD}</span></div><div class="bar"><span class="lbl">Posted on DMG</span><span class="track"><span class="fill" style="width:${Math.round(routeM/Math.max(1,open.length)*100)}%;background:var(--warn)"></span></span><span class="val num">${routeM}</span></div>
-      <h2 style="margin-top:14px">Approved this month</h2><div class="kpi"><div class="v num">${money(approvedM)}</div><div class="l">Budget approved by STIIIZY, month to date</div></div></div>
+      <h2 style="margin-top:14px">Approved this month</h2><div class="kpi"><div class="v num">${money(approvedM)}</div><div class="l">Budget approved by STIIIZY, month to date</div></div><div class="kpi" style="margin-top:8px"><div class="v num" style="font-size:20px">${money(approvedM*(S.settings.upfrontPct||0)/100)}</div><div class="l">Due upfront (${S.settings.upfrontPct}% of approved)</div></div></div>
   </div>
   <div class="card"><h2>Recent tickets</h2>${ticketTable(recent)}</div>`;
 }
 function ticketTable(list){
   if(!list.length) return `<div class="empty"><b>No tickets match.</b> Change the filters or file a new ticket.</div>`;
-  return `<div class="tbl-wrap"><table><thead><tr><th>Ticket</th><th>Location</th><th>Issue</th><th>Trade</th><th>Priority</th><th>Route</th><th>Status</th><th class="r">Approved</th><th>Filed</th></tr></thead><tbody>${list.map(t=>`<tr class="row" onclick="go('ticket','${t.id}')"><td class="mono">${esc(t.id)}</td><td><b>${esc(t.locName)}</b><br><span class="note">${esc(t.region)}</span></td><td>${esc(t.title)}</td><td>${esc(t.trade)}</td><td><span class="pill p-${cls(t.priority,["emergency","urgent","routine"])}">${esc(t.priority)}</span></td><td><span class="pill r-${cls(t.route,["direct","dmg"])}">${t.route==='direct'?'Direct vendor':'DMG'}</span></td><td><span class="pill s-${cls(t.status,ALL_STATUS)}">${STATUS_LABEL[t.status]||t.status}</span></td><td class="r num">${t.approval&&t.approval.decision==='approved'?money(t.estimate.total):'–'}</td><td class="note">${fmtDate(t.createdAt)}</td></tr>`).join("")}</tbody></table></div>`;
+  return `<div class="tbl-wrap"><table><thead><tr><th>Ticket</th><th>Location</th><th>Issue</th><th>Trade</th><th>Priority</th><th>Route</th><th>Status</th><th class="r">Approved</th><th class="r">Upfront (${S.settings.upfrontPct}%)</th><th>Filed</th></tr></thead><tbody>${list.map(t=>`<tr class="row" onclick="go('ticket','${t.id}')"><td class="mono">${esc(t.id)}</td><td><b>${esc(t.locName)}</b><br><span class="note">${esc(t.region)}</span></td><td>${esc(t.title)}</td><td>${esc(t.trade)}</td><td><span class="pill p-${cls(t.priority,["emergency","urgent","routine"])}">${esc(t.priority)}</span></td><td><span class="pill r-${cls(t.route,["direct","dmg"])}">${t.route==='direct'?'Direct vendor':'DMG'}</span></td><td><span class="pill s-${cls(t.status,ALL_STATUS)}">${STATUS_LABEL[t.status]||t.status}</span></td><td class="r num">${t.approval&&t.approval.decision==='approved'?money(t.estimate.total):'–'}</td><td class="r num">${upfront(t)!=null?money(upfront(t)):'–'}</td><td class="note">${fmtDate(t.createdAt)}</td></tr>`).join("")}</tbody></table></div>`;
 }
 function vTickets(){
   const f=S.filters; const regions=[...new Set(LOCATIONS.map(l=>l.region))];
@@ -392,26 +449,29 @@ function vTicket(){
     ${isOpen(t)?`<div class="actions" style="margin-top:12px"><label class="btn sm" for="ph_before">Add photo</label><input type="file" id="ph_before" accept="image/*" hidden onchange="for(const f of this.files) addPhoto('${t.id}',f,'before')"><button class="btn sm" onclick="addNote('${t.id}')">Add a note</button>${r!=='store'&&t.status!=='closed'?`<button class="btn sm danger" onclick="setStatus('${t.id}','cancelled','Cancelled')">Cancel ticket</button>`:""}</div>`:""}</div>`;
   // 2 assessment and approval
   panels+=`<div class="card"><h2>Price and approval</h2>`;
-  if(est){ panels+=`<div class="tbl-wrap"><table><thead><tr><th>Assessor's price build-up</th><th class="r">Amount</th></tr></thead><tbody>${est.lines.map(l=>`<tr><td>${esc(l.d)}</td><td class="r num">${money(l.a)}</td></tr>`).join("")}<tr class="tot"><td>Not-to-exceed budget (vendor bills STIIIZY directly)</td><td class="r num">${money(est.total)}</td></tr></tbody></table></div>${est.notes?`<div class="note" style="margin-top:8px"><b>Assessor notes:</b> ${esc(est.notes)}</div>`:""}<div class="note" style="margin-top:6px">Prime PM fee on this job: ${money(fee.fee)} (${fee.rate}), billed on Prime PM's own monthly invoice, never by the vendor.</div>`;
+  if(est){ panels+=`<div class="tbl-wrap"><table><thead><tr><th>Assessor's price build-up</th><th class="r">Amount</th></tr></thead><tbody>${est.lines.map(l=>`<tr><td>${esc(l.d)}</td><td class="r num">${money(l.a)}</td></tr>`).join("")}<tr class="tot"><td>Not-to-exceed budget (vendor bills STIIIZY directly)</td><td class="r num">${money(est.total)}</td></tr></tbody></table></div>${est.notes?`<div class="note" style="margin-top:8px"><b>Assessor notes:</b> ${esc(est.notes)}</div>`:""}<div class="note" style="margin-top:6px">Prime PM fee on this job: ${money(fee.fee)} (${fee.rate}), billed on Prime PM's own monthly invoice, never by the vendor.</div><div class="grid g2" style="margin-top:10px"><div class="card kpi" style="padding:12px"><div class="v num" style="font-size:20px">${money(est.total*(st.upfrontPct||0)/100)}</div><div class="l">STIIIZY pays upfront on approval (${st.upfrontPct}%)</div></div><div class="card kpi" style="padding:12px"><div class="v num" style="font-size:20px">${money(est.total-est.total*(st.upfrontPct||0)/100)}</div><div class="l">Balance on verified completion</div></div></div>`;
     if(t.approval){ panels+=`<div class="hint" style="margin-top:10px"><b>${t.approval.decision==='approved'?'Approved':'Declined'}</b> by ${esc(t.approval.by)} on ${fmtDT(t.approval.at)}${t.approval.note?`: ${esc(t.approval.note)}`:""}</div>`; }
     else if(t.status==="assessed"){ panels+= r==="approver"?`<div class="actions" style="margin-top:10px"><input type="text" id="ap_note" placeholder="Note (optional)" style="max-width:320px"><button class="btn primary" onclick="decide('${t.id}','approved')">Approve budget</button><button class="btn danger" onclick="decide('${t.id}','declined')">Decline</button></div>`:`<div class="hint" style="margin-top:10px"><b>Waiting on STIIIZY's approver.</b> Nothing is ordered or scheduled until the budget is approved.</div>`; }
-  } else if(t.status==="filed"){ panels+= r==="assessor"?estimateForm(t):`<div class="hint"><b>Being priced.</b> The assessor researches parts and labor for this trade and region and posts a not-to-exceed budget within ${t.priority==='emergency'?'hours':'1 business day'}.</div>`; }
+  } else if(t.status==="filed"||t.status==="inspection"){
+    if(t.inspection&&t.inspection.date) panels+=`<div class="hint" style="margin-bottom:10px"><b>Inspection scheduled</b> for ${fmtDate(t.inspection.date)} ${esc(t.inspection.window||"")}. ${t.inspection.notes?esc(t.inspection.notes):"The assessor prices the job from what the technician finds."}</div>`;
+    if(r==="assessor"){ panels+=`<div class="card" style="background:var(--surface2);margin-bottom:12px"><h3>${t.status==="inspection"?"Reschedule the inspection":"Step 2: schedule an inspection"}</h3><div class="note" style="margin-bottom:8px">Send a technician to confirm the scope before pricing. Skip this when the photos and description are enough to price.</div><div class="actions"><input type="date" id="in_date" style="max-width:170px" value="${esc(t.inspection&&t.inspection.date||"")}"><input type="text" id="in_win" placeholder="Arrival window, e.g. 8 to 10am" style="max-width:220px" value="${esc(t.inspection&&t.inspection.window||"")}"><button class="btn primary" onclick="scheduleInspection('${t.id}')">${t.status==="inspection"?"Update inspection":"Schedule inspection"}</button></div></div><h3>Step 3: scope and price</h3>`+estimateForm(t); }
+    else panels+= t.status==="inspection"?``:`<div class="hint"><b>Being scoped.</b> The assessor either schedules an inspection or prices the job from your description and photos, within ${t.priority==='emergency'?'hours':'1 business day'}.</div>`; }
   else panels+=`<div class="note">No price on this ticket.</div>`;
   panels+=`</div>`;
   // 3 routing
-  if(idx>=2||t.routing){ const ro=t.routing||{}; panels+=`<div class="card"><h2>Routing and vendor</h2><dl class="kv"><dt>Route</dt><dd><span class="pill r-${cls(t.route,["direct","dmg"])}">${t.route==='direct'?'Route A: direct Prime PM vendor':'Route B: posted on DMG for bids'}</span>${t.route==='direct'&&t.vendor?` · ${esc(t.vendor)}`:""}</dd>${ro.awarded?`<dt>Awarded</dt><dd><b>${money(ro.awarded)}</b> to ${esc(ro.awardedVendor||t.vendor||"vendor")}${ro.bids&&ro.bids.length?` · ${ro.bids.length} bid${ro.bids.length>1?'s':''} compared (rule: ${esc(st.vendorRule)})`:""}</dd>`:""}${ro.bids&&ro.bids.length?`<dt>Bids</dt><dd>${ro.bids.map(b=>`${esc(b.vendor)}: ${money(b.amount)}`).join("<br>")}</dd>`:""}${t.schedule&&t.schedule.date?`<dt>Scheduled</dt><dd>${fmtDate(t.schedule.date)} ${esc(t.schedule.window||"")}</dd>`:""}</dl>`;
+  if(idx>=3||t.routing){ const ro=t.routing||{}; panels+=`<div class="card"><h2>Select vendor and dispatch</h2><dl class="kv"><dt>Route</dt><dd><span class="pill r-${cls(t.route,["direct","dmg"])}">${t.route==='direct'?'Route A: direct Prime PM vendor':'Route B: posted on DMG for bids'}</span>${t.route==='direct'&&t.vendor?` · ${esc(t.vendor)}`:""}</dd>${ro.awarded?`<dt>Awarded</dt><dd><b>${money(ro.awarded)}</b> to ${esc(ro.awardedVendor||t.vendor||"vendor")}${ro.bids&&ro.bids.length?` · ${ro.bids.length} bid${ro.bids.length>1?'s':''} compared (rule: ${esc(st.vendorRule)})`:""}</dd>`:""}${ro.bids&&ro.bids.length?`<dt>Bids</dt><dd>${ro.bids.map(b=>`${esc(b.vendor)}: ${money(b.amount)}`).join("<br>")}</dd>`:""}${t.schedule&&t.schedule.date?`<dt>Vendor en route</dt><dd>${fmtDate(t.schedule.date)} ${esc(t.schedule.window||"")}</dd>`:""}</dl>`;
     if(r==="assessor"&&t.status==="approved") panels+=routeForm(t);
-    if(r==="assessor"&&t.status==="routed") panels+=`<div class="actions" style="margin-top:10px"><input type="date" id="sc_date" style="max-width:170px"><input type="text" id="sc_win" placeholder="Arrival window, e.g. 8 to 10am" style="max-width:220px"><button class="btn primary" onclick="schedule('${t.id}')">Set schedule</button></div>`;
-    if(r==="assessor"&&t.status==="scheduled") panels+=`<div class="actions" style="margin-top:10px"><button class="btn primary" onclick="setStatus('${t.id}','in_progress','Vendor on site')">Vendor checked in</button></div>`;
+    if(r==="assessor"&&t.status==="routed") panels+=`<div class="note" style="margin-top:10px">Step 6: dispatch the vendor. Set the day and arrival window; the store is notified.</div><div class="actions" style="margin-top:6px"><input type="date" id="sc_date" style="max-width:170px"><input type="text" id="sc_win" placeholder="Arrival window, e.g. 8 to 10am" style="max-width:220px"><button class="btn primary" onclick="schedule('${t.id}')">Vendor en route</button></div>`;
+    if(r==="assessor"&&t.status==="en_route") panels+=`<div class="actions" style="margin-top:10px"><button class="btn primary" onclick="setStatus('${t.id}','in_progress','Vendor on site')">Vendor checked in, job running</button></div>`;
     panels+=`</div>`; }
   // 4 completion
-  if(idx>=5||t.completion){ const c=t.completion||{}; panels+=`<div class="card"><h2>Completion</h2>${c.at?`<dl class="kv"><dt>Completed</dt><dd>${fmtDT(c.at)}</dd><dt>Work performed</dt><dd>${esc(c.notes)||"–"}</dd><dt>Sign-off</dt><dd>${c.signedOff?`Signed off by ${esc(c.signedBy)} on ${fmtDT(c.signedAt)}`:`<span class="pill s-assessed">Waiting for STIIIZY sign-off</span>`}</dd></dl>`:""}
+  if(idx>=6||t.completion){ const c=t.completion||{}; panels+=`<div class="card"><h2>Verify and close</h2>${c.at?`<dl class="kv"><dt>Completed</dt><dd>${fmtDT(c.at)}</dd><dt>Work performed</dt><dd>${esc(c.notes)||"–"}</dd><dt>Sign-off</dt><dd>${c.signedOff?`Signed off by ${esc(c.signedBy)} on ${fmtDT(c.signedAt)}`:`<span class="pill s-assessed">Waiting for STIIIZY sign-off</span>`}</dd></dl>`:""}
     ${photos.filter(p=>p.phase==="after").length?`<h3 style="margin-top:12px">After photos</h3><div class="photos">${photos.filter(p=>p.phase==="after").map(p=>`<figure><img alt="" src="${safeImg(p.dataUrl)}"><figcaption>${fmtDT(p.at)}</figcaption></figure>`).join("")}</div>`:""}
     ${r==="assessor"&&t.status==="in_progress"?`<div style="margin-top:10px"><label for="cp_notes">Work performed</label><textarea id="cp_notes" placeholder="What the vendor found and did, parts replaced, tests run"></textarea><div class="actions" style="margin-top:8px"><label class="btn sm" for="ph_after">Add after photo</label><input type="file" id="ph_after" accept="image/*" hidden onchange="for(const f of this.files) addPhoto('${t.id}',f,'after')"><button class="btn primary" onclick="complete('${t.id}')">Mark completed</button></div></div>`:""}
     ${t.status==="completed"&&!c.signedOff&&(r==="approver"||r==="store")?`<div class="actions" style="margin-top:10px"><button class="btn primary" onclick="signoff('${t.id}',true)">Confirm the repair is done</button><button class="btn danger" onclick="signoff('${t.id}',false)">Not fixed, send the vendor back</button></div>`:""}
-    ${isOpen(t)&&idx>=5?`<div class="actions" style="margin-top:10px"><label class="btn sm" for="ph_after2">Add after photo</label><input type="file" id="ph_after2" accept="image/*" hidden onchange="for(const f of this.files) addPhoto('${t.id}',f,'after')"></div>`:""}</div>`; }
+    ${isOpen(t)&&idx>=6?`<div class="actions" style="margin-top:10px"><label class="btn sm" for="ph_after2">Add after photo</label><input type="file" id="ph_after2" accept="image/*" hidden onchange="for(const f of this.files) addPhoto('${t.id}',f,'after')"></div>`:""}</div>`; }
   // 5 invoice
-  if(idx>=7||t.invoice||(r==="assessor"&&t.status==="completed"&&t.completion&&t.completion.signedOff)){ const inv=t.invoice||{}; panels+=`<div class="card"><h2>Invoice</h2>${inv.amount!=null?`<dl class="kv"><dt>Vendor invoice</dt><dd><b>${money(inv.amount)}</b> ${inv.ref?`(${esc(inv.ref)})`:""} · ${inv.amount<=est.total?'<span class="pill s-completed">within approved budget</span>':'<span class="pill s-declined">over approved budget</span>'}</dd><dt>Prime PM fee</dt><dd>${money(inv.fee)} (${esc(inv.feeRate)})</dd><dt>Total cost of this ticket</dt><dd><b>${money(inv.amount+inv.fee)}</b></dd>${inv.savings>0?`<dt>Saved vs. approved budget</dt><dd class="num">${money(inv.savings)}</dd>`:""}</dl>`:""}
+  if(idx>=8||t.invoice||(r==="assessor"&&t.status==="completed"&&t.completion&&t.completion.signedOff)){ const inv=t.invoice||{}; panels+=`<div class="card"><h2>Pay the vendor</h2>${inv.amount!=null?`<dl class="kv"><dt>Vendor invoice</dt><dd><b>${money(inv.amount)}</b> ${inv.ref?`(${esc(inv.ref)})`:""} · ${inv.amount<=est.total?'<span class="pill s-completed">within approved budget</span>':'<span class="pill s-declined">over approved budget</span>'}</dd><dt>Prime PM fee</dt><dd>${money(inv.fee)} (${esc(inv.feeRate)})</dd><dt>Total cost of this ticket</dt><dd><b>${money(inv.amount+inv.fee)}</b></dd><dt>Paid upfront / balance</dt><dd class="num">${money(est.total*(st.upfrontPct||0)/100)} upfront · ${money(Math.max(0,inv.amount-est.total*(st.upfrontPct||0)/100))} balance due</dd>${inv.savings>0?`<dt>Saved vs. approved budget</dt><dd class="num">${money(inv.savings)}</dd>`:""}</dl>`:""}
     ${r==="assessor"&&t.status==="completed"&&t.completion&&t.completion.signedOff?`<div class="actions" style="margin-top:10px"><input type="number" id="inv_amt" step="0.01" placeholder="Vendor invoice amount" value="${t.routing&&t.routing.awarded||est.total}" style="max-width:200px"><input type="text" id="inv_ref" placeholder="Invoice number" style="max-width:180px"><button class="btn primary" onclick="invoice('${t.id}')">Record vendor invoice</button></div><div class="note" style="margin-top:6px">The vendor invoices STIIIZY directly. Recording it here closes the loop and feeds the savings report.</div>`:""}
     ${r==="assessor"&&t.status==="invoiced"?`<div class="actions" style="margin-top:10px"><button class="btn primary" onclick="setStatus('${t.id}','closed','Closed')">Close ticket</button></div>`:""}</div>`; }
   // 6 activity
@@ -424,18 +484,25 @@ function estimateForm(t){ const rows=(t._draft||[{d:"",a:""},{d:"",a:""},{d:"",a
 let estRows=3; function addEstRow(){ const tb=$("est_rows"); const i=tb.children.length; const tr=document.createElement("tr"); tr.innerHTML=`<td><input type="text" id="el_d${i}" placeholder="Line item"></td><td><input type="number" step="0.01" id="el_a${i}" placeholder="0.00"></td>`; tb.appendChild(tr); }
 async function postEstimate(id){ const t=S.tickets.find(x=>x.id===id); const tb=$("est_rows"); const lines=[]; for(let i=0;i<tb.children.length;i++){ const d=$("el_d"+i).value.trim(), a=parseFloat($("el_a"+i).value); if(d&&!isNaN(a)) lines.push({d,a}); } if(!lines.length){ toast("Add at least one priced line"); return; }
   const total=+lines.reduce((s,l)=>s+l.a,0).toFixed(2); const nt={...t, estimate:{lines,total,notes:$("est_notes").value.trim(),postedAt:nowIso(),by:who()}, status:"assessed"}; if(await saveTicket(nt,"Priced",money(total)+" sent for approval")) toast("Price sent to STIIIZY for approval"); }
-async function decide(id,decision){ const t=S.tickets.find(x=>x.id===id); const note=($("ap_note")||{}).value||""; const nt={...t, approval:{decision,by:who(),at:nowIso(),note}, status:decision==="approved"?"approved":"declined"}; if(await saveTicket(nt,decision==="approved"?"Budget approved":"Budget declined",note)) toast(decision==="approved"?"Approved. The assessor will route it now.":"Declined"); }
+async function decide(id,decision){ const t=S.tickets.find(x=>x.id===id); const note=($("ap_note")||{}).value||""; const nt={...t, approval:{decision,by:who(),at:nowIso(),note}, status:decision==="approved"?"approved":"declined"}; if(await saveTicket(nt,decision==="approved"?"Budget approved":"Budget declined",note)) toast(decision==="approved"?"Approved. Prime PM has been notified and will select the vendor.":"Declined"); }
 function routeForm(t){ const l=locById(t.locId)||{}; return `<div style="margin-top:10px">${t.route==="direct"?`<div class="note">Direct vendor on file: <b>${esc(t.vendor||l.vendor||"Prime PM vendor")}</b>. Confirm the awarded price (at or below the approved ${money(t.estimate.total)}).</div><div class="actions" style="margin-top:8px"><input type="number" step="0.01" id="rt_amt" value="${t.estimate.total}" style="max-width:180px"><input type="text" id="rt_vendor" value="${esc(t.vendor||l.vendor||"")}" placeholder="Vendor" style="max-width:220px"><button class="btn primary" onclick="award('${t.id}')">Send to vendor</button></div>`:`<div class="note">No direct vendor at this site. Post on DMG and record the bids; the approved budget ${money(t.estimate.total)} is the ceiling. Vendor selection rule: <b>${esc(S.settings.vendorRule)}</b>.</div><div class="grid g3" style="margin-top:8px">${[0,1,2].map(i=>`<div><input type="text" id="bd_v${i}" placeholder="Bidder ${i+1}"><input type="number" step="0.01" id="bd_a${i}" placeholder="Bid amount" style="margin-top:6px"></div>`).join("")}</div><div class="actions" style="margin-top:8px"><input type="text" id="rt_vendor" placeholder="Awarded vendor" style="max-width:220px"><input type="number" step="0.01" id="rt_amt" placeholder="Awarded amount" style="max-width:180px"><button class="btn primary" onclick="award('${t.id}')">Award on DMG</button></div>`}</div>`; }
 async function award(id){ const t=S.tickets.find(x=>x.id===id); const amt=parseFloat($("rt_amt").value); const vendor=$("rt_vendor").value.trim(); if(isNaN(amt)||!vendor){ toast("Enter the vendor and the awarded amount"); return; } if(amt>t.estimate.total*1.0001){ toast("Awarded amount is above the approved budget. Re-price the ticket instead."); return; }
   const bids=[]; for(let i=0;i<3;i++){ const v=$("bd_v"+i), a=$("bd_a"+i); if(v&&a&&v.value.trim()&&!isNaN(parseFloat(a.value))) bids.push({vendor:v.value.trim(),amount:parseFloat(a.value)}); }
   const nt={...t, routing:{route:t.route, awarded:amt, awardedVendor:vendor, bids, at:nowIso()}, vendor, status:"routed"}; if(await saveTicket(nt, t.route==="direct"?"Sent to direct vendor":"Awarded on DMG", `${vendor} at ${money(amt)}`)) toast("Routed"); }
-async function schedule(id){ const t=S.tickets.find(x=>x.id===id); const d=$("sc_date").value; if(!d){ toast("Pick a date"); return; } const nt={...t, schedule:{date:d, window:$("sc_win").value.trim()}, status:"scheduled"}; if(await saveTicket(nt,"Scheduled",fmtDate(d)+" "+$("sc_win").value.trim())) toast("Scheduled"); }
+async function schedule(id){ const t=S.tickets.find(x=>x.id===id); const d=$("sc_date").value; if(!d){ toast("Pick a date"); return; } const nt={...t, schedule:{date:d, window:$("sc_win").value.trim()}, status:"en_route"}; if(await saveTicket(nt,"Vendor en route",fmtDate(d)+" "+$("sc_win").value.trim())) toast("Vendor dispatched"); }
+async function scheduleInspection(id){ const t=S.tickets.find(x=>x.id===id); const d=$("in_date").value; if(!d){ toast("Pick an inspection date"); return; } const was=t.status==="inspection"; const nt={...t, inspection:{date:d, window:$("in_win").value.trim(), by:who()}, status:"inspection"}; if(await saveTicket(nt, was?"Inspection rescheduled":"Inspection scheduled", fmtDate(d)+" "+$("in_win").value.trim())) toast(was?"Inspection updated":"Inspection scheduled"); }
 async function setStatus(id,status,action){ const t=S.tickets.find(x=>x.id===id); const nt={...t, status}; if(status==="closed") nt.closedAt=nowIso(); if(await saveTicket(nt,action,"")) toast(action); }
 async function hold(id){ const t=S.tickets.find(x=>x.id===id); const nt={...t, holdFrom:t.status, status:"on_hold"}; if(await saveTicket(nt,"On hold","")) toast("On hold"); }
 async function complete(id){ const t=S.tickets.find(x=>x.id===id); const nt={...t, completion:{at:nowIso(), notes:$("cp_notes").value.trim(), signedOff:false}, status:"completed"}; if(await saveTicket(nt,"Work completed","Waiting for STIIIZY sign-off")) toast("Marked completed. STIIIZY signs off next."); }
 async function signoff(id,ok){ const t=S.tickets.find(x=>x.id===id); if(ok){ const nt={...t, completion:{...t.completion, signedOff:true, signedBy:who(), signedAt:nowIso()}}; if(await saveTicket(nt,"Signed off","Repair confirmed by STIIIZY")) toast("Signed off"); } else { const nt={...t, status:"in_progress", completion:{...t.completion, signedOff:false, rejectedAt:nowIso()}}; if(await saveTicket(nt,"Sent back","STIIIZY reports the issue is not resolved")) toast("Sent back to the vendor"); } }
 async function invoice(id){ const t=S.tickets.find(x=>x.id===id); const amt=parseFloat($("inv_amt").value); if(isNaN(amt)){ toast("Enter the invoice amount"); return; } const f=feeFor(amt,t.route); const nt={...t, invoice:{amount:amt, ref:$("inv_ref").value.trim(), fee:f.fee, feeRate:f.rate, savings:+(t.estimate.total-amt).toFixed(2), at:nowIso()}, status:"invoiced"}; if(await saveTicket(nt,"Vendor invoice recorded",money(amt))) toast("Invoice recorded"); }
 async function addNote(id){ const t=S.tickets.find(x=>x.id===id); const box=document.createElement("div"); box.className="card"; box.style.cssText="position:fixed;left:50%;top:30%;transform:translateX(-50%);z-index:30;width:min(520px,92vw);box-shadow:var(--shadow)"; box.innerHTML=`<h3>Add a note to ${esc(id)}</h3><textarea id="nt_txt" placeholder="Update, question, or anything the assessor should know"></textarea><div class="actions" style="margin-top:10px"><button class="btn primary" id="nt_ok">Add note</button><button class="btn" id="nt_x">Cancel</button></div>`; document.body.appendChild(box); $("nt_x").onclick=()=>box.remove(); $("nt_ok").onclick=async()=>{ const v=$("nt_txt").value.trim(); if(!v) return; box.remove(); if(await saveTicket({...t},"Note",v)) toast("Note added"); }; $("nt_txt").focus(); }
+
+function vNotifications(){ const list=notifList(); const em=S.emails; const q=em.filter(e=>e.status==="queued").length;
+  return `<div class="page-head"><div><h1>Notifications</h1><div class="lead">Every stage change on every ticket, and the email sent to ${esc(S.settings.notifyEmail||"client@theprimepm.com")} for each one.</div></div><div class="spacer"></div>${q&&S.role==="assessor"&&!S.demo&&S.mcp?`<button class="btn primary" onclick="flushOutbox()">Send ${q} queued email${q>1?'s':''}</button>`:""}</div>
+  <div class="grid g2"><div class="card"><h2>Activity feed</h2>${list.length?list.map(n=>`<div class="notif ${n.t>S.seenAt?'':'seen'}" onclick="go('ticket','${esc(n.id)}')"><span class="d"></span><div><b>${esc(n.action)}</b> · ${esc(n.id)} ${esc(n.title)}<div class="m">${esc(n.loc)} · ${esc(n.who)}${n.note?" · "+esc(n.note):""} · ${fmtDT(n.t)}</div></div></div>`).join(""):`<div class="empty">No activity yet.</div>`}</div>
+  <div class="card"><h2>Email log</h2>${em.length?`<div class="tbl-wrap"><table><thead><tr><th>When</th><th>Subject</th><th>To</th><th>Status</th></tr></thead><tbody>${em.slice(0,60).map(e=>`<tr class="row" onclick="showEmail('${esc(e.id)}')"><td class="note">${fmtDT(e.at)}</td><td>${esc(e.subject)}</td><td class="note">${esc(e.to)}</td><td><span class="pill ${e.status==='sent'?'s-completed':'s-assessed'}">${e.status==='sent'?'Sent':'Queued'}</span></td></tr>`).join("")}</tbody></table></div>`:`<div class="empty"><b>No emails yet.</b> The first stage change on any ticket creates one.</div>`}<div class="note" style="margin-top:8px">${S.demo?"Demo mode: emails are logged here but not sent.":S.mcp?"Connected to Gmail. Stage emails send immediately.":"Gmail is not connected in this view. Emails queue here and send when the Prime PM assessor opens the portal on claude.ai."}</div></div></div>`; }
+function showEmail(id){ const e=S.emails.find(x=>x.id===id); if(!e) return; const box=document.createElement("div"); box.className="card"; box.style.cssText="position:fixed;left:50%;top:12%;transform:translateX(-50%);z-index:30;width:min(640px,92vw);max-height:76vh;overflow:auto;box-shadow:var(--shadow)"; box.innerHTML=`<h3>${esc(e.subject)}</h3><div class="note">To ${esc(e.to)} · ${fmtDT(e.at)} · ${esc(e.status)}</div><pre style="white-space:pre-wrap;font:12.5px/1.5 var(--mono);margin:12px 0;color:var(--fg)">${esc(e.body)}</pre><div class="actions"><button class="btn" id="em_x">Close</button></div>`; document.body.appendChild(box); $("em_x").onclick=()=>box.remove(); }
 
 function vLocations(){ const regions=[...new Set(LOCATIONS.map(l=>l.region))]; const list=LOCATIONS.filter(l=>(!S.locRegion||l.region===S.locRegion)&&(!S.locQ||(l.name+" "+l.city+" "+l.addr).toLowerCase().includes(S.locQ.toLowerCase())));
   const direct=LOCATIONS.filter(l=>l.route==="direct").length;
@@ -451,24 +518,24 @@ function vReports(){ const days=Number(S.period); const since=new Date(); since.
   const group=(key)=>{ const m={}; all.forEach(t=>{ const k=t[key]||"–"; m[k]=m[k]||{n:0,open:0,budget:0,spend:0,fee:0}; m[k].n++; if(isOpen(t)) m[k].open++; if(t.approval&&t.approval.decision==="approved") m[k].budget+=t.estimate.total; if(t.invoice){ m[k].spend+=t.invoice.amount; m[k].fee+=t.invoice.fee; } }); return Object.entries(m).sort((a,b)=>b[1].n-a[1].n); };
   const tbl=(title,rows,label)=>`<div class="card"><h2>${title}</h2><div class="tbl-wrap"><table><thead><tr><th>${label}</th><th class="r">Tickets</th><th class="r">Open</th><th class="r">Approved budget</th><th class="r">Vendor spend</th><th class="r">Prime PM fee</th></tr></thead><tbody>${rows.map(([k,v])=>`<tr><td>${esc(k==='direct'?'Direct vendor':k==='dmg'?'DMG':k)}</td><td class="r num">${v.n}</td><td class="r num">${v.open}</td><td class="r num">${money(v.budget)}</td><td class="r num">${money(v.spend)}</td><td class="r num">${money(v.fee)}</td></tr>`).join("")||`<tr><td colspan="6" class="note">No tickets in this period.</td></tr>`}</tbody></table></div></div>`;
   return `<div class="page-head"><div><h1>Reports</h1><div class="lead">Approved budget vs. vendor spend vs. Prime PM fee, by region, trade, and route. This is the weekly status and monthly savings report in one place.</div></div><div class="spacer"></div><select onchange="S.period=this.value;render()" style="width:auto">${[["30","Last 30 days"],["90","Last 90 days"],["365","Last 12 months"],["9999","All time"]].map(([v,l])=>`<option value="${v}" ${S.period===v?'selected':''}>${l}</option>`).join("")}</select><button class="btn" onclick="exportCsv()">Export CSV</button></div>
-  <div class="grid g6"><div class="card kpi"><div class="v num">${all.length}</div><div class="l">Tickets filed</div></div><div class="card kpi"><div class="v num">${closed.length}</div><div class="l">Closed</div></div><div class="card kpi"><div class="v num">${avg}</div><div class="l">Avg days to close</div></div><div class="card kpi"><div class="v num">${money(budget)}</div><div class="l">Approved budget</div></div><div class="card kpi"><div class="v num">${money(spend)}</div><div class="l">Vendor spend (invoiced)</div></div><div class="card kpi good"><div class="v num">${money(saved)}</div><div class="l">Under budget on invoiced jobs</div></div></div>
+  <div class="grid g6"><div class="card kpi"><div class="v num">${all.length}</div><div class="l">Tickets filed</div></div><div class="card kpi"><div class="v num">${closed.length}</div><div class="l">Closed</div></div><div class="card kpi"><div class="v num">${avg}</div><div class="l">Avg days to close</div></div><div class="card kpi"><div class="v num">${money(budget)}</div><div class="l">Approved budget · ${money(budget*(S.settings.upfrontPct||0)/100)} upfront</div></div><div class="card kpi"><div class="v num">${money(spend)}</div><div class="l">Vendor spend (invoiced)</div></div><div class="card kpi good"><div class="v num">${money(saved)}</div><div class="l">Under budget on invoiced jobs</div></div></div>
   <div class="card"><h2>Prime PM fees this period</h2><div class="grid g3"><div class="kpi"><div class="v num">${money(fees)}</div><div class="l">Job fees on ${invoiced.length} invoiced ticket${invoiced.length===1?'':'s'}</div></div><div class="kpi"><div class="v num">${invoiced.filter(t=>t.route==='direct').length} / ${invoiced.filter(t=>t.route==='dmg').length}</div><div class="l">Direct / DMG invoiced</div></div><div class="kpi"><div class="v num">${spend?((fees/spend)*100).toFixed(1):"0.0"}%</div><div class="l">Effective fee rate on vendor spend</div></div></div><div class="note" style="margin-top:8px">Fee rule: ${S.settings.feeDirectLow}% of the first ${money(S.settings.feeBreak)} and ${S.settings.feeDirectHigh}% above on direct jobs; ${S.settings.feeDmg}% flat on DMG jobs. Monthly assessor and account fees are separate.</div></div>
   <div class="grid g2">${tbl("By region",group("region"),"Region")}${tbl("By trade",group("trade"),"Trade")}</div>
   <div class="grid g2">${tbl("By route",group("route"),"Route")}${tbl("By priority",group("priority"),"Priority")}</div>`; }
-async function exportCsv(){ const dl=await window.claude?.use?.("downloads"); const rows=[["Ticket","Location","Region","Trade","Priority","Route","Vendor","Status","Filed","Approved budget","Awarded","Invoice","Prime PM fee","Saved","Closed","Days to close","Title"]]; S.tickets.forEach(t=>rows.push([t.id,t.locName,t.region,t.trade,t.priority,t.route,t.vendor||"",STATUS_LABEL[t.status]||t.status,fmtDate(t.createdAt),t.estimate?t.estimate.total:"",t.routing?t.routing.awarded:"",t.invoice?t.invoice.amount:"",t.invoice?t.invoice.fee:"",t.invoice?t.invoice.savings:"",t.closedAt?fmtDate(t.closedAt):"",t.closedAt?daysBetween(t.createdAt,t.closedAt):"",t.title])); const csv=rows.map(r=>r.map(v=>`"${String(v==null?"":v).replace(/"/g,'""')}"`).join(",")).join("\n");
+async function exportCsv(){ const dl=await window.claude?.use?.("downloads"); const rows=[["Ticket","Location","Region","Trade","Priority","Route","Vendor","Status","Filed","Approved budget","Upfront ("+S.settings.upfrontPct+"%)","Awarded","Invoice","Prime PM fee","Saved","Closed","Days to close","Title"]]; S.tickets.forEach(t=>rows.push([t.id,t.locName,t.region,t.trade,t.priority,t.route,t.vendor||"",STATUS_LABEL[t.status]||t.status,fmtDate(t.createdAt),t.estimate?t.estimate.total:"",upfront(t)!=null?upfront(t):"",t.routing?t.routing.awarded:"",t.invoice?t.invoice.amount:"",t.invoice?t.invoice.fee:"",t.invoice?t.invoice.savings:"",t.closedAt?fmtDate(t.closedAt):"",t.closedAt?daysBetween(t.createdAt,t.closedAt):"",t.title])); const csv=rows.map(r=>r.map(v=>`"${String(v==null?"":v).replace(/"/g,'""')}"`).join(",")).join("\n");
   if(dl){ try{ await dl.save({filename:"stiiizy-tickets.csv", data:csv}); }catch(e){ toast("Download cancelled"); } } else { try{ await navigator.clipboard.writeText(csv); toast("CSV copied to clipboard"); }catch(e){ toast("Download not available in this view"); } } }
 
 function vSettings(){ const st=S.settings; const ro=S.role!=="assessor"; const f=(id,label,val,type="text")=>`<div class="field"><label for="${id}">${label}</label><input type="${type}" id="${id}" value="${esc(val)}" ${ro?"disabled":""}></div>`;
   return `<div class="page-head"><div><h1>Account settings</h1><div class="lead">The rules this account runs on. ${ro?"Only the Prime PM assessor can change them.":"Changes apply to new tickets immediately."}</div></div></div>
   <div class="card"><h2>Fee rules (Option 2)</h2><div class="grid g4">${f("s_low","Direct jobs: % of first tier",st.feeDirectLow,"number")}${f("s_break","Tier break ($)",st.feeBreak,"number")}${f("s_high","Direct jobs: % above the break",st.feeDirectHigh,"number")}${f("s_dmg","DMG jobs: flat %",st.feeDmg,"number")}</div><div class="note" style="margin-top:8px">Example on a $2,000 job: direct ${money(feeFor(2000,"direct").fee)} fee, STIIIZY pays ${money(2000+feeFor(2000,"direct").fee)}. DMG: platform ${st.dmgPlatform}% makes the awarded price ${money(2000*(1+st.dmgPlatform/100))}, Prime PM fee ${money(feeFor(2000*(1+st.dmgPlatform/100),"dmg").fee)}, STIIIZY pays ${money(2000*(1+st.dmgPlatform/100)+feeFor(2000*(1+st.dmgPlatform/100),"dmg").fee)}.</div></div>
-  <div class="card"><h2>Approval and vendors</h2><div class="grid g3">${f("s_appr","STIIIZY approver (name)",st.approverName)}<div class="field"><label for="s_rule">Vendor selection rule on DMG bids</label><select id="s_rule" ${ro?"disabled":""}><option value="lowest" ${st.vendorRule==='lowest'?'selected':''}>Lowest price</option><option value="fastest" ${st.vendorRule==='fastest'?'selected':''}>Fastest turnaround</option><option value="preferred" ${st.vendorRule==='preferred'?'selected':''}>Preferred vendor first</option></select></div>${f("s_plat","DMG platform fee % (reference)",st.dmgPlatform,"number")}</div></div>
+  <div class="card"><h2>Approval, upfront payment, and notifications</h2><div class="grid g3">${f("s_appr","STIIIZY approver (name)",st.approverName)}${f("s_up","STIIIZY pays upfront on approval (%)",st.upfrontPct,"number")}${f("s_notify","Stage notifications go to",st.notifyEmail,"email")}</div><div class="note" style="margin-top:8px">Every stage change (filed, inspection, priced, approved, vendor selected, en route, on site, completed, signed off, invoiced, closed) is logged under Notifications and emailed to this address. Emails send through the Prime PM Gmail connection when the assessor has the portal open on claude.ai; otherwise they queue and send on the next visit.</div><div class="grid g3" style="margin-top:12px"><div class="field"><label for="s_rule">Vendor selection rule on DMG bids</label><select id="s_rule" ${ro?"disabled":""}><option value="lowest" ${st.vendorRule==='lowest'?'selected':''}>Lowest price</option><option value="fastest" ${st.vendorRule==='fastest'?'selected':''}>Fastest turnaround</option><option value="preferred" ${st.vendorRule==='preferred'?'selected':''}>Preferred vendor first</option></select></div>${f("s_plat","DMG platform fee % (reference)",st.dmgPlatform,"number")}</div></div>
   <div class="card"><h2>Response targets and emergencies</h2><div class="grid g4">${f("s_e","Emergency response (hours)",st.slaEmergencyHours,"number")}${f("s_u","Urgent (business days)",st.slaUrgentDays,"number")}${f("s_r","Routine (business days)",st.slaRoutineDays,"number")}${f("s_ph","Emergency phone",st.emergencyPhone)}</div><div class="grid g2" style="margin-top:12px">${f("s_em","Account email",st.emergencyEmail,"email")}</div></div>
   ${ro?"":`<div class="actions"><button class="btn primary" onclick="applySettings()">Save settings</button></div>`}`; }
-async function applySettings(){ const g=(id)=>$(id).value; S.settings={...S.settings, feeDirectLow:+g("s_low"), feeBreak:+g("s_break"), feeDirectHigh:+g("s_high"), feeDmg:+g("s_dmg"), approverName:g("s_appr").trim(), vendorRule:g("s_rule"), dmgPlatform:+g("s_plat"), slaEmergencyHours:+g("s_e"), slaUrgentDays:+g("s_u"), slaRoutineDays:+g("s_r"), emergencyPhone:g("s_ph").trim(), emergencyEmail:g("s_em").trim()}; await saveSettings(); render(); }
+async function applySettings(){ const g=(id)=>$(id).value; S.settings={...S.settings, upfrontPct:+g("s_up"), notifyEmail:g("s_notify").trim(), feeDirectLow:+g("s_low"), feeBreak:+g("s_break"), feeDirectHigh:+g("s_high"), feeDmg:+g("s_dmg"), approverName:g("s_appr").trim(), vendorRule:g("s_rule"), dmgPlatform:+g("s_plat"), slaEmergencyHours:+g("s_e"), slaUrgentDays:+g("s_u"), slaRoutineDays:+g("s_r"), emergencyPhone:g("s_ph").trim(), emergencyEmail:g("s_em").trim()}; await saveSettings(); render(); }
 
-function vHelp(){ return `<div class="page-head"><div><h1>How a ticket moves</h1><div class="lead">The same eight steps run on every ticket. Prime PM handles everything except filing, approving, and paying.</div></div></div>
-  <div class="grid g4">${[["1. File the ticket","Store or site","Pick the location, describe the problem, add photos. Emergencies also get a phone call."],["2. Scope and price","Prime PM assessor","Researches parts and labor for the trade and region and posts a not-to-exceed budget, usually within 1 business day."],["3. Approve the budget","STIIIZY approver","Approves or declines in the portal. Nothing is ordered or scheduled before approval."],["4. Route the job","Prime PM assessor","Sent straight to our direct vendor at the negotiated rate, or posted on DMG for bids where we have no vendor yet. The approved budget is the ceiling."],["5. Pick the vendor","Prime PM assessor","On DMG, bids are compared and the vendor is picked by your rule: lowest price, fastest, or preferred."],["6. Run the job","Prime PM assessor","Schedules the vendor, chases them, and keeps the ticket updated. Same-business-day response on emergencies."],["7. Verify and close","Both","After photos and a write-up of the work. STIIIZY confirms the repair is done before the ticket closes."],["8. Pay the vendor","STIIIZY","The vendor invoices STIIIZY directly for the awarded amount. Prime PM's fee is its own line on our monthly invoice."]].map(([h,w,d])=>`<div class="card"><h3>${h}</h3><div class="note" style="margin-bottom:6px"><b>${w}</b></div><div>${d}</div></div>`).join("")}</div>
-  <div class="grid g2"><div class="card"><h2>Who does what in this portal</h2><dl class="kv"><dt>Store or site</dt><dd>Files tickets, adds photos and notes, confirms the repair is done.</dd><dt>STIIIZY approver</dt><dd>Approves or declines every budget, signs off completed work, reads reports.</dd><dt>Prime PM assessor</dt><dd>Prices, routes, schedules, records bids and invoices, closes tickets, maintains settings.</dd></dl><div class="note" style="margin-top:8px">Pick your role at the top right. It only changes which actions the portal shows you.</div></div>
+function vHelp(){ return `<div class="page-head"><div><h1>How a ticket moves</h1><div class="lead">The same nine steps run on every ticket, and the tracker at the top of each ticket shows where it is. Prime PM handles everything except filing, approving, and paying.</div></div></div>
+  <div class="grid g3">${[["1. STIIIZY files the ticket","Store or site","Pick the location, describe the problem, add photos. Emergencies also get a phone call."],["2. Inspection scheduled","Prime PM assessor","A technician visits to confirm the scope when photos are not enough. Skipped when the description is clear."],["3. Scope and price","Prime PM assessor","Parts and labor priced at Prime PM vendor rates; a not-to-exceed budget is sent for approval, usually within 1 business day."],["4. Budget approved","STIIIZY approver","Approves or declines in the portal. ${S.settings.upfrontPct}% of the approved budget is due upfront; nothing is ordered before approval."],["5. Select vendor","Prime PM assessor","Sent to our direct vendor at the negotiated rate, or posted on DMG for bids where we have no vendor yet. The approved budget is the ceiling."],["6. Vendor en route","Prime PM assessor","The vendor is dispatched with a day and arrival window. The store sees it on the ticket and gets notified."],["7. Run the job","Prime PM assessor","Vendor checks in, the work is done, and the assessor keeps the ticket updated until it is finished."],["8. Verify and close","Both","After photos and a write-up of the work. STIIIZY confirms the repair is done; the balance is due on verified completion."],["9. Pay the vendor","STIIIZY","The vendor invoices STIIIZY directly for the awarded amount. Prime PM's fee is its own line on our monthly invoice."]].map(([h,w,d])=>`<div class="card"><h3>${h}</h3><div class="note" style="margin-bottom:6px"><b>${w}</b></div><div>${d}</div></div>`).join("")}</div>
+  <div class="grid g2"><div class="card"><h2>Who does what in this portal</h2><dl class="kv"><dt>Store or site</dt><dd>Files tickets, adds photos and notes, confirms the repair is done.</dd><dt>STIIIZY approver</dt><dd>Approves or declines every budget, signs off completed work, reads reports.</dd><dt>Prime PM assessor</dt><dd>Schedules inspections, prices, selects vendors, dispatches, records bids and invoices, closes tickets, maintains settings.</dd></dl><div class="note" style="margin-top:8px">Every stage change is logged under Notifications and emailed to ${esc(S.settings.notifyEmail||"client@theprimepm.com")}, so Prime PM knows the moment STIIIZY approves a budget.</div><div class="note" style="margin-top:8px">Pick your role at the top right. It only changes which actions the portal shows you.</div></div>
   <div class="card"><h2>Priorities and response targets</h2><dl class="kv"><dt>Emergency</dt><dd>No power, flooding, security exposure, no cooling in product areas. Assessor on it within ${S.settings.slaEmergencyHours} hours; vendor same business day.</dd><dt>Urgent</dt><dd>Affects sales or operations. Priced within 1 business day, vendor within ${S.settings.slaUrgentDays}.</dd><dt>Routine</dt><dd>Everything else. Priced within 1 business day, vendor within ${S.settings.slaRoutineDays}.</dd></dl><div class="note" style="margin-top:8px">Emergencies: file the ticket, then call ${esc(S.settings.emergencyPhone)}.</div></div></div>
   <div class="card"><h2>Reports you get</h2><div>Weekly status (what is open and where it stands), the monthly savings report (approved budget vs. what the vendor invoiced, by store and trade), and a quarterly spend audit across all locations. All of it is on the Reports page, live, and exports to CSV.</div></div>`; }
 
